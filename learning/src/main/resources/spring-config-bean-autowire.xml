@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="bean-autowire-location-00" class="com.king.learning.beans.Location">
+        <constructor-arg type="java.lang.String" value="北京"/>
+        <constructor-arg type="java.lang.String" value="116.397128"/>
+        <constructor-arg type="java.lang.String" value="39.916527"/>
+    </bean>
+
+    <bean id="location" class="com.king.learning.beans.Location">
+        <constructor-arg type="java.lang.String" value="北京"/>
+        <constructor-arg type="java.lang.String" value="116.397128"/>
+        <constructor-arg type="java.lang.String" value="39.916527"/>
+    </bean>
+
+<!--    <bean id="bean-autowire-location-01" class="com.king.learning.beans.Location">-->
+<!--        <constructor-arg index="0" value="杭州"/>-->
+<!--        <constructor-arg index="1" value="120.21201"/>-->
+<!--        <constructor-arg index="2" value="30.2084"/>-->
+<!--    </bean>-->
+
+<!--    <bean id="bean-autowire-location-02" class="com.king.learning.beans.Location">-->
+<!--        <constructor-arg name="name" value="苏州"/>-->
+<!--        <constructor-arg name="longitude" value="120.63132"/>-->
+<!--        <constructor-arg name="latitude" value="31.30227"/>-->
+<!--    </bean>-->
+
+<!--    <bean id="bean-autowire-location-03" class="com.king.learning.beans.Location">-->
+<!--        <property name="name" value="苏州"/>-->
+<!--        <property name="longitude" value="120.63132"/>-->
+<!--        <property name="latitude" value="31.30227"/>-->
+<!--    </bean>-->
+
+    <!--  byType按照类型方式注入，且该被注入的依赖只能包含一个 Could not autowire. There is more than one bean of 'Location' type -->
+    <bean id="bean-autowire-address-01" class="com.king.learning.beans.Address" autowire="byType">
+        <property name="name" value="中国北京"/>
+    </bean>
+    <!-- 按照bean名称（id）注入 , Address必须包含一个无参构造器或不含构造器。如果只包含有参构造器，spring默认通过构造器注入属性，location属性必须通过构造器注入-->
+    <bean id="bean-autowire-address-02" class="com.king.learning.beans.Address" autowire="byName">
+        <property name="name" value="中国北京"/>
+    </bean>
+
+    <!-- 构造器注入，Address类必须包含构造器 -->
+    <bean id="bean-autowire-address-03" class="com.king.learning.beans.Address" autowire="constructor">
+        <constructor-arg name="name" value="中国北京"/>
+        <constructor-arg type="com.king.learning.beans.Location" ref="location"/>
+    </bean>
+
+</beans>

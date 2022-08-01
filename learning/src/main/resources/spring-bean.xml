@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="spring-config-bean-autowire.xml"/>
+
+    <bean id="dateFormat" class="java.text.SimpleDateFormat">
+        <constructor-arg value="yyyy-MM-dd" />
+    </bean>
+
+    <!--  吴老师个人信息  -->
+    <bean id="per_tch_wu" abstract="true" >
+        <property name="name" value="吴用"/>
+        <property name="age" value="30"/>
+        <property name="sex" value="男"/>
+        <property name="birthDate">
+            <bean factory-bean="dateFormat" factory-method="parse">
+                <constructor-arg value="1990-05-06" />
+            </bean>
+        </property>
+        <property name="location" value="江苏苏州"/>
+    </bean>
+
+    <!--  王明明个人信息  -->
+    <bean id="per_stu_ming" abstract="true">
+        <property name="name" value="王明明"/>
+        <property name="age" value="10"/>
+        <property name="sex" value="男"/>
+        <property name="birthDate">
+            <bean factory-bean="dateFormat" factory-method="parse">
+                <constructor-arg value="2013-05-06" />
+            </bean>
+        </property>
+        <property name="location" value="江苏苏州"/>
+    </bean>
+
+    <!-- 南通小学 -->
+    <bean id="sch_ntu" class="com.king.learning.beans.School">
+        <property name="schoolAddress" value="江苏省南通市滨湖区松陵大道159号"/>
+        <property name="schoolLevel" value="四星级小学"/>
+        <property name="schoolName" value="南通小学"/>
+        <property name="schoolType" value="小学"/>
+    </bean>
+
+    <!-- 班主任老吴 -->
+    <bean id="tch_master" class="com.king.learning.beans.Teacher" autowire="byName" parent="per_tch_wu">
+        <property name="teacherLevel" value="高级教师"/>
+        <property name="teacherType" value="班主任"/>
+        <property name="school" ref="sch_ntu"/>
+    </bean>
+
+    <!-- 学生小明 -->
+    <bean id="stu_ming" class="com.king.learning.beans.Student" autowire="byType" parent="per_stu_ming">
+        <property name="classLevel" value="五年级"/>
+        <property name="teacher" ref="tch_master"/>
+
+    </bean>
+
+</beans>
